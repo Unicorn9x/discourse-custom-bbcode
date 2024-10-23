@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # name: discourse-custom-bbcode
 # about: A plugin to add custom BBCode for hiding content from guests.
 # version: 0.1
