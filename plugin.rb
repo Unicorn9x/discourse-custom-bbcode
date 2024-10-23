@@ -7,8 +7,7 @@
 
 after_initialize do
   # Register the custom BBCode
-  Discourse::Markup.register_bbcode(
-    'hide-for-guests', 
-    '<div class="hide-for-guests">%{content}</div>'
-  )
+  Discourse::Markup.register(:bbcode, 'hide-for-guests') do |content|
+    "<div class='hide-for-guests'>#{content}</div>"
+  end
 end
