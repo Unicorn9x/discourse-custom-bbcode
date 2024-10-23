@@ -9,12 +9,12 @@ enabled_site_setting :custom_bbcode_enabled
 
 after_initialize do
   # Register the custom BBCode
-  Discourse::Markup.register(:bbcode, 'hide-for-guests') do |content|
-    "<div class='hide-for-guests'>#{content}</div>"
-  end
-  
-  # Modify the post serializer to recognize the custom BBCode
-  add_to_serializer(:post, :custom_bbcode) do
-    object.cooked.gsub(/<div class='hide-for-guests'>(.*?)<\/div>/m, '<div class="hide-for-guests" data-hide-for-guests>$1</div>')
+  Discourse::Post.default_cooked_to_html_hooks << Proc.new do |html|
+    # This regex captures your custom BBCode
+    html.gsub!(/\[hide-for-guests\](.*?)\[\/hide-for-guests\]/m) do |match|
+      content = $1
+      "<div class='hide-for-guests'>#{content}</div>"
+    end
+    html
   end
 end
