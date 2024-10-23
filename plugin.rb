@@ -10,4 +10,9 @@ after_initialize do
   Discourse::Markup.register(:bbcode, 'hide-for-guests') do |content|
     "<div class='hide-for-guests'>#{content}</div>"
   end
+
+  # Ensure the custom BBCode is parsed
+  add_to_serializer(:post, :hide_for_guests) do
+    object.cooked.gsub(/<div class='hide-for-guests'>(.*?)<\/div>/m, '<div class="hide-for-guests" data-hide-for-guests>$1</div>')
+  end
 end
