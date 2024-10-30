@@ -5,16 +5,14 @@
 
 enabled_site_setting :custom_bbcode_enabled
 
-# Registering the custom BBCode
 after_initialize do
-  # Modify the post serializer to recognize the custom BBCode
-  add_to_class(:post, :cooked) do
-    html = super()
-    # Convert the custom BBCode to HTML
-    html.gsub!(/\[hide-for-guests\](.*?)\[\/hide-for-guests\]/m) do |match|
-      content = $1
-      "<div class='hide-for-guests'>#{content}</div>"
+  # Hook into the post processing pipeline to replace custom BBCode with HTML
+  on(:post_process_cooked) do |doc, post|
+    doc.css("hide-for-guests").each do |element|
+      # Replace custom BBCode with a div containing the hidden content
+      content = element.inner_html
+      replacement = "<div class='hide-for-guests'>#{content}</div>"
+      element.replace(replacement)
     end
-    html
   end
 end
