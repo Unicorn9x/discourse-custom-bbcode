@@ -1,4 +1,4 @@
-// javascripts/hide_for_guests.js.es6
+// javascripts/hide_for_guests.js
 
 import { api } from 'discourse/lib/api';
 
