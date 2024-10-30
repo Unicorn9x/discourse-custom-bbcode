@@ -5,6 +5,8 @@
 
 enabled_site_setting :custom_bbcode_enabled
 
+register_asset "javascripts/hide_for_guests.js.es6"
+
 after_initialize do
   # Hook into the post processing pipeline to replace custom BBCode with HTML
   on(:post_process_cooked) do |doc, post|
